@@ -1,0 +1,14 @@
+cse:
+  build: ./cse
+  volumes:
+    - "./cse/server:/site"
+  ports:
+    - "3000:3000"
+
+nginx:
+  restart: always
+  build: ./nginx
+  ports:
+    - "80:80"
+  links:
+    - cse:cse

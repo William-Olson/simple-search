@@ -1,9 +1,0 @@
-.results-area(ng-repeat="result in hits")
-  .row.valign-wrapper.card
-    .col.s1.valign.left-align
-      | {{$index + 1}}
-    .section.col.s10.valign
-      p {{result.content}}
-    .col.s1.valign.right-align
-      a(ng-show="result.link", href="{{result.link}}")
-        i.material-icons.s-primary info_outline

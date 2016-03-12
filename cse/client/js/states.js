@@ -14,7 +14,7 @@ return function($stateProvider, $urlRouterProvider){
     })
     .state('404', {
       url: '/404',
-      template: '<h3>Error</h3><p>Something has gone wrong!</p>'
+      templateUrl: 'views/404.html'
     });
   };
 

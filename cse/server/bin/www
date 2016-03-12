@@ -3,11 +3,9 @@
 /**
  * Module dependencies.
  */
-
-var app = require('../server');
+var app = require('../server.js');
 var debug = require('debug')('cse:server');
 var http = require('http');
-
 /**
  * Get port from environment and store in Express.
  */

@@ -1,3 +1,7 @@
+/*
+  gulpfile.js
+    For running build-prep tasks.
+*/
 'use strict';
 
 //node_modules
@@ -17,11 +21,11 @@ var gulp = require('gulp')
   , shell = require('shelljs')
   , concat = require('gulp-concat');
 
-// build data
+// build location data
 var paths = {
   js: {
         src: 'client/js/**/*js'
-      , dest: 'server/build'
+      , dest: 'server/build/pub'
       , tmp: 'server/build/_tmp'
       , entry_point: 'server/build/_tmp/index.js'
       , exit_point: 'index.js'
@@ -29,14 +33,14 @@ var paths = {
   styles: {
         src: 'client/**/*styl'
       , tmp: 'server/build/_tmp/index.styl'
-      , dest: 'server/build'
+      , dest: 'server/build/pub'
       , exit_point: 'index.css'
   },
   views: {
-      src: 'client/views/index.jade'
-    , watch: 'src/**/*jade'
-    , dest: 'server/build'
-    , base: 'src/views'
+      src: 'client/views/**/**jade'
+    , watch: 'client/**/*jade'
+    , dest: 'server/build/views'
+    , base: 'client/views'
   }
 };
 
@@ -140,4 +144,4 @@ gulp.task('watch', function() {
 // --- main:
 gulp.task('clean', ['clean_js', 'clean_views', 'clean_css']);
 gulp.task('build', ['watch', 'dev_bundle', 'lint', 'jade', 'stylus']);
-gulp.task('min', ['min_bundle', 'lint', 'jade', 'stylus']);
+gulp.task('pro', ['min_bundle', 'lint', 'jade', 'stylus']);

@@ -1,14 +1,12 @@
-cse:
+ss_cse:
   build: ./cse
-  volumes:
-    - "./cse/server:/site"
   ports:
     - "3000:3000"
 
-nginx:
+ss_nginx:
   restart: always
   build: ./nginx
   ports:
     - "80:80"
   links:
-    - cse:cse
+    - ss_cse:ss_cse

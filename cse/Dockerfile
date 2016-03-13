@@ -1,6 +1,12 @@
 FROM node
 
-ADD ./server/ /site/
+RUN mkdir -p /site/server
+
+ADD ./server/ /site/server
+COPY ./client/ /site/client
+ADD ./package.json /site
+ADD ./gulpfile.js /site
+
 
 WORKDIR /site
 
@@ -9,8 +15,11 @@ ENV TERM xterm
 ENV DEBUG "cse"
 
 RUN npm install -g gulp && \
-	npm install -g nodemon
+	npm install -g nodemon && \
+	npm install
 
-EXPOSE 3333
+RUN gulp pro
 
-CMD nodemon /site/bin/www
+EXPOSE 3000
+
+CMD nodemon /site/server/bin/www

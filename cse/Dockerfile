@@ -20,6 +20,5 @@ RUN npm install -g gulp && \
 
 RUN gulp pro
 
-EXPOSE 3000
 
 CMD nodemon /site/server/bin/www

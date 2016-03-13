@@ -1,7 +1,7 @@
 ss_cse:
   build: ./cse
   ports:
-    - "3000:3000"
+    - "3000"
 
 ss_nginx:
   restart: always

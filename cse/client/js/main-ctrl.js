@@ -1,7 +1,9 @@
 'use strict';
 
 // @ngInject
-module.exports = ($scope) => {
+module.exports = ($scope, mainSvc) => {
+
+  mainSvc.search('yo');
 
   //populate some data for searching
   const bank =  [
@@ -14,14 +16,14 @@ module.exports = ($scope) => {
 
 
   //reset trigger for data searches
-  var reset = () => { $scope.hits = angular.copy(bank); };
+  var reset = () => { $scope.hits = []; };
 
   //the search method
   $scope.search = (term) => {
     reset();
     if(term !== ''){
       term = angular.lowercase(term); //insensitive searches
-      $scope.hits = $scope.hits.filter((a) => {
+      $scope.hits = (angular.copy(bank)).filter((a) => {
         return angular.lowercase(a.content).indexOf(term) !== -1;
       });
       if($scope.hits.length === 0) $scope.hits = [{ content: 'No Results Found =(' } ];

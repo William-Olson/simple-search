@@ -5,7 +5,8 @@ var search = angular.module('search', [
 ]);
 
 search
-  .controller('mainCtrl', require('./main-ctrl'));
+  .controller('mainCtrl', require('./main-ctrl'))
+  .service('mainSvc', require('./main-svc'));
 
 
 search.config([

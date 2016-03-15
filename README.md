@@ -4,6 +4,11 @@
 #### TODO
 
  - google api
+ - search term pre-processing
+   - stop words
+   - normalization
+   - stemming
+   - lemmatization
  - dockerize & link cse with nginx
  - implement relavent searches
    - relavent result selection

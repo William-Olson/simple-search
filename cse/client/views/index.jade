@@ -9,12 +9,22 @@ html(ng-app="search")
     .container
       h3 Search App
       ui-view
+        //- settings button area
+        .configuration-area.row.valign-wrapper.right
+          .opt.btn-flat
+            .col.valign
+              label.s-primary Options
+            .col.valign
+              i.material-icons.s-primary settings
         //- search input
         .query-area
-          input(placeholder="Enter Text Here...", ng-model="qterm", ng-change="search(qterm)")
+          input#srchbox(placeholder="Enter Text Here...", ng-model="qterm")
+          .btn(ng-click="search(qterm)") Search
+          .btn(ng-click="reset(true)") Clear
+          .btn.disabled.right Rerank
         //- results area
-        .results-area(ng-repeat="result in hits")
-          .row.valign-wrapper.card
+        .results-area
+          .row.valign-wrapper.card(ng-repeat="result in hits")
             .col.s1.valign.left-align
               | {{$index + 1}}
             .section.col.s10.valign

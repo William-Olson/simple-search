@@ -3,6 +3,13 @@
 // @ngInject
 module.exports = ($scope, mainSvc) => {
 
+
+  $scope.config = {
+      state: 'options'
+    , options: [ 'search', '404']
+  };
+
+
   mainSvc.search('yo');
 
   //populate some data for searching
@@ -16,8 +23,8 @@ module.exports = ($scope, mainSvc) => {
 
 
   //reset trigger for data searches
-  var reset = () => { $scope.hits = []; };
-
+  var reset = (clr) => { $scope.hits = []; if (clr) {$scope.qterm = ''; $('#srchbox').focus(); } };
+  $scope.reset = reset;
   //the search method
   $scope.search = (term) => {
     reset();

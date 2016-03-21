@@ -11,10 +11,10 @@
     "debug": "~2.2.0",
     "ejs": "^2.4.1",
     "express": "~4.13.1",
-    "google-search": "0.0.3",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "browserify": "^13.0.0",

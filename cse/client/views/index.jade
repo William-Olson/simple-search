@@ -12,11 +12,35 @@ html(ng-app="search")
       ui-view
         //- settings button area
         .configuration-area.row.valign-wrapper.right
-          .opt.btn-flat
+          a.opt.btn-flat.modal-trigger(href="#optmodal")
             .col.valign
               label.s-primary Options
             .col.valign
               i.material-icons.s-primary settings
+          //- options modal
+          #optmodal.modal
+            h3 Options Menu
+              small -- (Under Construction)
+            ul.collapsible(data-collapsible="accordion")
+              li 
+                .collapsible-header Search Type
+                  span.right.s-primary (click to expand)
+                .collapsible-body
+                  p details...
+              li 
+                .collapsible-header Allow Ranking
+                  .switch.right
+                    label
+                      | Off
+                      input(type="checkbox")
+                      span.lever
+                      | On
+              li 
+                .collapsible-header Algorithm Type
+                .collapsible-body
+                  p details...
+            .modal-footer
+              btn.btn-flat.modal-action.modal-close Close
         //- search input
         .query-area
           input#srchbox(placeholder="Enter Text Here...", ng-model="qterm")

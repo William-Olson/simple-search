@@ -15,5 +15,11 @@ search.config([
       , ($stateProvider, $urlRouterProvider) => {
 
   require('./states.js')($stateProvider, $urlRouterProvider);
-
+    // Set up all the materialize js actions
+    $(document).ready(function(){
+      $('.modal-trigger').leanModal();
+    });
+    $('.collapsible').collapsible({
+      accordion : true
+    });
 }]);

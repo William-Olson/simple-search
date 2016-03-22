@@ -4,8 +4,8 @@ RUN mkdir -p /site/server
 
 ADD ./server/ /site/server
 COPY ./client/ /site/client
-ADD ./package.json /site
-ADD ./gulpfile.js /site
+COPY ./package.json /site/
+COPY ./gulpfile.js /site/
 
 
 WORKDIR /site

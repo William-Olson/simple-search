@@ -2,6 +2,7 @@
 
 var search = angular.module('search', [
         'ui.router'
+      , 'ngSanitize'
 ]);
 
 search
@@ -15,11 +16,24 @@ search.config([
       , ($stateProvider, $urlRouterProvider) => {
 
   require('./states.js')($stateProvider, $urlRouterProvider);
-    // Set up all the materialize js actions
-    $(document).ready(function(){
-      $('.modal-trigger').leanModal();
-    });
+
+  $(document).ready(() => {
+
+    //modals setup
+    $('.modal-trigger').leanModal();
+
+    //accordion menus setup
     $('.collapsible').collapsible({
       accordion : true
     });
+
+    //[enter] keypress trigger for search box
+    $("#srchbox").keyup((event) => {
+      if(event.keyCode == 13){
+          $("#srchbtn").click();
+      }
+    });
+
+  });
+
 }]);

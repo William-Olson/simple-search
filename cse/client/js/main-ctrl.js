@@ -26,7 +26,7 @@ module.exports = ($scope, mainSvc) => {
     if(term !== ''){
       term = angular.lowercase(term); //insensitive searches
       mainSvc.search(term).then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         if(resp.data !== 'Error'){
           $scope.hits = angular.copy(resp.data.items);
         }

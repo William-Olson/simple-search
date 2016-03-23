@@ -2,6 +2,7 @@ ss_cse:
   build: ./cse
   ports:
     - "3000"
+  env_file: ./cse/.env
 
 ss_nginx:
   restart: always

@@ -7,7 +7,11 @@ var search = angular.module('search', [
 
 search
   .controller('mainCtrl', require('./main-ctrl'))
-  .service('mainSvc', require('./main-svc'));
+  .controller('optionCtrl', require('./option-ctrl'))
+  .service('mainSvc', require('./main-svc'))
+  .directive('dynTootip', require('./directives/dyn-tooltip'))
+  .directive('dynCollapse', require('./directives/dyn-collapse'))
+  .directive('enterTrigger', require('./directives/enter-trigger'));
 
 
 search.config([
@@ -16,24 +20,5 @@ search.config([
       , ($stateProvider, $urlRouterProvider) => {
 
   require('./states.js')($stateProvider, $urlRouterProvider);
-
-  $(document).ready(() => {
-
-    //modals setup
-    $('.modal-trigger').leanModal();
-
-    //accordion menus setup
-    $('.collapsible').collapsible({
-      accordion : true
-    });
-
-    //[enter] keypress trigger for search box
-    $("#srchbox").keyup((event) => {
-      if(event.keyCode == 13){
-          $("#srchbtn").click();
-      }
-    });
-
-  });
 
 }]);

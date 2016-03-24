@@ -1,0 +1,28 @@
+.main-area
+  h3 Search App
+  ui-view
+    //- config button
+    .configuration-area.row.valign-wrapper.right
+      #opt-btn.btn-flat(ui-sref="options")
+        .col.valign #[label.s-primary Options]
+        .col.valign #[i.material-icons.s-primary settings]
+    //- search input
+    .query-area
+      input#srchbox(placeholder="Enter Text Here...", ng-model="qterm", enter-trigger)
+      #srchbtn.btn(ng-click="search(qterm)") Search
+      .btn.tooltipped(ng-click="reset(true)") Clear
+      .btn.disabled.right Rerank
+    //- results area
+    .results-area
+      .row.valign-wrapper.card(ng-repeat="result in hits")
+        .col.s1.valign.left-align
+          | {{$index + 1}}
+        .result-content-area.section.col.s9.valign
+          h6.result-title-area(ng-bind-html="result.htmlTitle")
+          .s-primary(ng-bind-html="result.htmlSnippet")
+          a(href="{{result.link}}", ng-bind-html="result.htmlFormattedUrl")
+        .col.s2.valign.right-align
+          span.left-align #[small Relevant #[br]]
+          input.tooltipped(type="checkbox", id="rel-chbx-{{$index}}")
+          label(for="rel-chbx-{{$index}}")
+

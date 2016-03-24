@@ -1,0 +1,22 @@
+.opt-area
+  h5.s-primary.right-align Options
+  ul.collapsible(data-collapsible="accordion" dyn-collapse dyn-tooltip)
+    li 
+      .collapsible-header Search Type
+        span.right.s-primary (click to expand)
+      .collapsible-body
+        p details...
+    li 
+      .collapsible-header Allow Ranking
+        .switch.right
+          label
+            | Off
+            input(type="checkbox")
+            span.lever
+            | On
+    li 
+      .collapsible-header Algorithm Type
+      .collapsible-body
+        p details...
+  .opt-footer.right-align
+    btn.btn.btn-flat(ui-sref="search") Ok

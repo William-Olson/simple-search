@@ -10,7 +10,14 @@ return function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state('search', {
       url: '/',
-      controller: 'mainCtrl'
+      controller: 'mainCtrl',
+      templateUrl: 'views/main.html'
+    })
+    .state('options', {
+      url: 'config',
+      controller: 'optionCtrl',
+      parent: 'search',
+      templateUrl: 'views/options.html'
     })
     .state('404', {
       url: '/404',

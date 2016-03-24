@@ -4,10 +4,10 @@
 module.exports = ($scope, mainSvc) => {
 
 
-  $scope.config = {
-      state: 'options'
-    , options: [ 'search', '404']
-  };
+  // $scope.config = {
+  //     state: 'options'
+  //   , options: [ 'search', '404']
+  // };
 
 
   //reset trigger for data searches
@@ -26,7 +26,6 @@ module.exports = ($scope, mainSvc) => {
     if(term !== ''){
       term = angular.lowercase(term); //insensitive searches
       mainSvc.search(term).then((resp) => {
-        // console.log(resp);
         if(resp.data !== 'Error'){
           $scope.hits = angular.copy(resp.data.items);
         }

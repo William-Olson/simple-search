@@ -1,11 +1,74 @@
 'use strict';
 
+const OPTS = {
+  WEB: 'Web',
+  LOC: 'Local',
+  ON: 'On',
+  OFF: 'Off',
+  JACC: 'Jaccard',
+  COS:  'Cosine Similarity'
+};
+
 // @ngInject
-module.exports = function ($http) {
+module.exports = function ($http, $rootScope) {
   var service = {};
 
+  $rootScope.config = $rootScope.config || {
+      current: {
+        search: OPTS.WEB,
+        ranked: OPTS.OFF,
+      },
+      available: {
+        search: [OPTS.WEB, OPTS.LOC],
+        ranked: [OPTS.ON, OPTS.OFF]
+      }
+  };
+
+  // Retrieve the current config options.
+  service.getConfig = () => {
+    return angular.copy($rootScope.config);
+  };
+
+  // Adjust the config settings.
+  service.setConfig = (newConfig) => {
+    if(newConfig) $rootScope.config = newConfig;
+  };
+
+// ------------------------------------------
+// stubbs for re-ranking
+
+  // Convert docStr to a vector (Array of type Number).
+  let getVec = (docStr) => {
+    let result = [];
+    //TODO: implement this
+    return result;
+  };
+
+  // Calc Cosine Similarity.
+  let cmpCos = (docVec1, docVec2) => {
+    let result = -1.0;
+    //TODO: implement this
+    return result;
+  };
+
+  // Calc Jaccard Similarity.
+  let cmpJac = (docVec1, docVec2) => {
+    let result = -1.0;
+    //TODO: implement this
+    return result;
+  };
+
+  // Rerank the current web search results.
+  service.rerank = (hits, term) => {
+    let results = [];
+    //TODO: implement this
+    return result;
+  }
+
+// ------------------------------------------
+
   /*
-	search:
+	search_web:
 		uses googles api on backend for
 		web query searches
 
@@ -24,8 +87,21 @@ module.exports = function ($http) {
 		  title: "NODE Berlin Oslo — Graphic Design Studio"
 		} ... ]
   */
-  service.search = (term) => {
+  let search_web = (term) => {
   	return $http.get('ws/' + term);
+  };
+
+  // Search local documents.
+  let search_local = (term) => {
+    //TODO: implement this
+  };
+
+  // Search delegator function
+  service.search = (term) => {
+    if($rootScope.config.current.search == OPTS.LOC)
+      return search_local(term);
+    else
+      return search_web(term);
   };
 
   return service;

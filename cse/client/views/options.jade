@@ -1,22 +1,47 @@
 .opt-area
-  h5.s-primary.right-align Options
-  ul.collapsible(data-collapsible="accordion" dyn-collapse dyn-tooltip)
-    li 
-      .collapsible-header Search Type
-        span.right.s-primary (click to expand)
-      .collapsible-body
-        p details...
-    li 
-      .collapsible-header Allow Ranking
-        .switch.right
-          label
-            | Off
-            input(type="checkbox")
-            span.lever
-            | On
-    li 
-      .collapsible-header Algorithm Type
-      .collapsible-body
-        p details...
-  .opt-footer.right-align
-    btn.btn.btn-flat(ui-sref="search") Ok
+  h5.s-primary.center-align Options
+  form.container
+    .section
+      p Search Mode
+      .opt(ng-repeat="o in opts.search")
+        input(
+          type="radio",
+          value="{{o}}",
+          ng-model="usrInput.search",
+          name="optgroup-srch",
+          id="opt-srch-{{$index}}",
+          ng-change="disableCheck()"
+        )
+        label(for="opt-srch-{{$index}}") {{o}}
+      .divider
+    .section
+      p(ng-class="{'s-primary': usrInput.search === 'Local'}") Ranked Mode
+      .switch.opt
+        label
+          | Off
+          input(
+            type="checkbox",
+            ng-model="usrInput.ranked",
+            ng-disabled="usrInput.search === 'Local'"
+          )
+          span.lever
+          | On
+    .divider
+    .section
+      p(ng-class="{'s-primary': usrInput.search === 'Local' || !usrInput.ranked}") Algorithm
+      .opt(ng-repeat="o in opts.algor")
+        input(
+         type="radio",
+         value="{{o}}",
+         name="optgroup-alg",
+         id="opt-alg-{{$index}}",
+         ng-model="usrInput.algor",
+         ng-disabled="usrInput.search === 'Local' || !usrInput.ranked"
+        )
+        label(for="opt-alg-{{$index}}") {{o}}
+  //- button area
+  .row.valign-wrapper.opt-save-area
+    .col.valign.right-align.s6
+      .btn.btn-flat.s-accent(ui-sref="search") Cancel
+    .col.valign.left-align.s6
+      .btn.btn-flat.s-accent(ng-click="saveOpts()") Save

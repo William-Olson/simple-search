@@ -6,11 +6,18 @@ var search = angular.module('search', [
 ]);
 
 search
+  // controllers
   .controller('mainCtrl', require('./main-ctrl'))
   .controller('optionCtrl', require('./option-ctrl'))
-  .service('mainSvc', require('./main-svc'))
+
+  // services
+  .service('mainSvc', require('./services/main-svc'))
+  .service('rankedSvc', require('./services/ranked-svc'))
+
+  // directives
   .directive('dynTootip', require('./directives/dyn-tooltip'))
   .directive('dynCollapse', require('./directives/dyn-collapse'))
+  .directive('loadWheel', require('./directives/load-wheel'))
   .directive('enterTrigger', require('./directives/enter-trigger'));
 
 

@@ -4,7 +4,8 @@
 //  Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14,
 //  no. 3, pp 130-137,
 //
-// see also http://www.tartarus.org/~martin/PorterStemmer
+//  see: http://www.tartarus.org/~martin/PorterStemmer
+//
 // Release 1 be 'andargor', Jul 2004
 // Release 2 (substantially revised) by Christopher McKenzie, Aug 2009
 
@@ -12,7 +13,7 @@
 
 var stemmer = (() => {
 
-	var step2list = {
+	const step2list = {
 			"ational" : "ate",
 			"tional" : "tion",
 			"enci" : "ence",
@@ -57,14 +58,13 @@ var stemmer = (() => {
 		s_v = "^(" + C + ")?" + v;                         // vowel in stem
 
 	return (w) => {
-		var stem,
+		let stem,
 			suffix,
 			firstch,
 			re,
 			re2,
 			re3,
-			re4,
-			origword = w;
+			re4;
 
 		if (w.length < 3) { return w; }
 
@@ -183,11 +183,11 @@ var stemmer = (() => {
 			w = firstch.toLowerCase() + w.substr(1);
 		}
 
-		console.log(origword + ' -changed-to-> ' + w);
 
 		return w;
 	};
 })();
+
 
 
 module.exports = stemmer;

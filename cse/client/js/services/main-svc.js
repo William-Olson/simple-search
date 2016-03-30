@@ -1,26 +1,30 @@
 'use strict';
 
+// Search Options
 const OPTS = {
   WEB: 'Web',
   LOC: 'Local',
-  ON: 'On',
-  OFF: 'Off',
   JACC: 'Jaccard',
   COS:  'Cosine Similarity'
 };
+
+// bring in porters stemming algoritm
+const stemmer = require('../util/porters-algorithm');
 
 // @ngInject
 module.exports = function ($http, $rootScope) {
   var service = {};
 
+  // Possible & current search configurations
   $rootScope.config = $rootScope.config || {
       current: {
         search: OPTS.WEB,
-        ranked: OPTS.OFF,
+        ranked: false,
+        algor: OPTS.COS
       },
       available: {
         search: [OPTS.WEB, OPTS.LOC],
-        ranked: [OPTS.ON, OPTS.OFF]
+        algor: [OPTS.JACC, OPTS.COS]
       }
   };
 
@@ -31,41 +35,15 @@ module.exports = function ($http, $rootScope) {
 
   // Adjust the config settings.
   service.setConfig = (newConfig) => {
-    if(newConfig) $rootScope.config = newConfig;
+    if(newConfig.current)
+      $rootScope.config.current = newConfig.current;
   };
 
-// ------------------------------------------
-// stubbs for re-ranking
-
-  // Convert docStr to a vector (Array of type Number).
-  let getVec = (docStr) => {
-    let result = [];
-    //TODO: implement this
-    return result;
+  // Adjust the config settings.
+  service.getEnums = () => {
+    return OPTS;
   };
 
-  // Calc Cosine Similarity.
-  let cmpCos = (docVec1, docVec2) => {
-    let result = -1.0;
-    //TODO: implement this
-    return result;
-  };
-
-  // Calc Jaccard Similarity.
-  let cmpJac = (docVec1, docVec2) => {
-    let result = -1.0;
-    //TODO: implement this
-    return result;
-  };
-
-  // Rerank the current web search results.
-  service.rerank = (hits, term) => {
-    let results = [];
-    //TODO: implement this
-    return result;
-  }
-
-// ------------------------------------------
 
   /*
 	search_web:
@@ -88,6 +66,8 @@ module.exports = function ($http, $rootScope) {
 		} ... ]
   */
   let search_web = (term) => {
+    // let stemmed = stemmer(term);
+    // console.log('stemmed: ' + term + '  -to-> ' + stemmed);
   	return $http.get('ws/' + term);
   };
 

@@ -10,19 +10,28 @@
     .query-area
       input#srchbox(placeholder="Enter Text Here...", ng-model="qterm", enter-trigger)
       #srchbtn.btn(ng-click="search(qterm)") Search
-      .btn.tooltipped(ng-click="reset(true)") Clear
-      .btn.disabled.right Rerank
+      .btn.tooltipped(ng-click="reset(); qterm = ''; focusSrch();") Clear
+      .right
+        .row
+          small.col.s-primary(ng-if="opts.ranked && (relCount() == 0 || relCount() > 5)")
+            | (Select 1 to 5 Relevant Results)
+          .col.btn(
+            ng-click="reRank(qterm)",
+            ng-show="opts.ranked",
+            ng-class="{disabled: (opts.ranked && (relCount() == 0 || relCount() > 5))}"
+          ) Rerank
     //- results area
     .results-area
-      .row.valign-wrapper.card(ng-repeat="result in hits")
+      .row.valign-wrapper.card(ng-repeat="h in hits")
         .col.s1.valign.left-align
           | {{$index + 1}}
         .result-content-area.section.col.s9.valign
-          h6.result-title-area(ng-bind-html="result.htmlTitle")
-          .s-primary(ng-bind-html="result.htmlSnippet")
-          a(href="{{result.link}}", ng-bind-html="result.htmlFormattedUrl")
+          h6.result-title-area(ng-bind-html="h.htmlTitle")
+          .s-primary(ng-bind-html="h.htmlSnippet")
+          a(href="{{h.link}}", ng-bind-html="h.htmlFormattedUrl")
         .col.s2.valign.right-align
-          span.left-align #[small Relevant #[br]]
-          input.tooltipped(type="checkbox", id="rel-chbx-{{$index}}")
-          label(for="rel-chbx-{{$index}}")
-    .load-wheel.center-align(show-trigger="false")
+          .checks(ng-if="opts.ranked")
+            span.left-align #[small Relevant #[br]]
+            input.tooltipped(type="checkbox", id="rel-chbx-{{$index}}", ng-model="h.rel")
+            label(for="rel-chbx-{{$index}}")
+    .load-wheel.center-align(show-trigger="working")

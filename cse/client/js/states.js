@@ -8,16 +8,28 @@ return function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.when('', '/');
 
   $stateProvider
-    .state('search', {
-      url: '/',
+    .state('main', {
+      url: '',
       controller: 'mainCtrl',
       templateUrl: 'views/main.html'
     })
     .state('options', {
-      url: 'config',
+      url: '/config',
       controller: 'optionCtrl',
-      parent: 'search',
+      parent: 'main',
       templateUrl: 'views/options.html'
+    })
+    .state('search', {
+      url: '/',
+      controller: 'mainCtrl',
+      parent: 'main',
+      templateUrl: 'views/search.html'
+    })
+    .state('results', {
+      url: 'search/:term',
+      controller: 'mainCtrl',
+      parent: 'search',
+      templateUrl: 'views/results.html'
     })
     .state('404', {
       url: '/404',

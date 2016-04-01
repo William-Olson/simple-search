@@ -1,0 +1,15 @@
+.results-area
+  //- results area
+  .row.valign-wrapper.card(ng-repeat="h in hits")
+    .col.s1.valign.left-align
+      | {{$index + 1}}
+    .result-content-area.section.col.s9.valign
+      h6.result-title-area(ng-bind-html="h.htmlTitle")
+      .s-primary(ng-bind-html="h.htmlSnippet")
+      a(href="{{h.link}}", ng-bind-html="h.htmlFormattedUrl")
+    .col.s2.valign.right-align
+      .checks(ng-if="opts.ranked")
+        span.left-align #[small Relevant #[br]]
+        input.tooltipped(type="checkbox", id="rel-chbx-{{$index}}", ng-model="h.rel")
+        label(for="rel-chbx-{{$index}}")
+  .load-wheel.center-align(show-trigger="working")

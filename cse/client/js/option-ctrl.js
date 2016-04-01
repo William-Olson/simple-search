@@ -3,6 +3,8 @@
 // @ngInject
 module.exports = ($scope, mainSvc, $state) => {
   
+  console.log($state.current);
+
   //get current settings
   const OPTS = mainSvc.getEnums();
   let config = mainSvc.getConfig();

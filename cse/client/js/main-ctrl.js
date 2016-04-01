@@ -1,7 +1,9 @@
 'use strict';
 
 // @ngInject
-module.exports = ($scope, mainSvc, $rootScope) => {
+module.exports = ($scope, mainSvc, $rootScope, $state) => {
+
+  console.log($state.current);
 
   $scope.working = false;
   $scope.opts = mainSvc.getConfig().current;

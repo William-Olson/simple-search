@@ -1,8 +1,13 @@
 'use strict';
 
 // @ngInject
-module.exports = function ($http, $rootScope) {
+module.exports = () => {
   var service = {};
+
+  // Creates array containing only relevant hits.
+  let getRels = (hits) => {
+    return hits.filter(h => h.rel);
+  };
 
   // Convert docStr to a vector (Array of type Number).
   let getVec = (docStr) => {
@@ -26,11 +31,30 @@ module.exports = function ($http, $rootScope) {
   };
 
   // Rerank the current web search results.
-  service.rerank = (hits, term, opts) => {
+  service.reRank = (term, hits, cb, opts) => {
     let results = [];
     //TODO: implement this
-    return result;
-  }
+    console.log('running reRank(' + term + ', arr[' + hits.length + '], cb, ', opts);
+    console.log(');');
+
+    //create the combined doc
+
+    //set vec property for each hit + term
+
+    //compare similarities
+    switch(opts.type) {
+      case opts.JACC:
+        //compare jaccard similarity
+        break;
+      case opts.COS:
+        //compare cosine similarity
+        break;
+      default:
+        cb(new Error('Bad opt (algor) type!'));
+    }
+
+    cb(null, results);
+  };
 
 
 

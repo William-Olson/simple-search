@@ -11,8 +11,8 @@ search
   .controller('optionCtrl', require('./option-ctrl'))
 
   // services
-  .service('mainSvc', require('./services/main-svc'))
   .service('rankedSvc', require('./services/ranked-svc'))
+  .service('mainSvc', require('./services/main-svc'))
 
   // directives
   .directive('dynTootip', require('./directives/dyn-tooltip'))

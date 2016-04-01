@@ -12,7 +12,7 @@ const OPTS = {
 const stemmer = require('../util/porters-algorithm');
 
 // @ngInject
-module.exports = function ($http, $rootScope) {
+module.exports = function ($http, $rootScope, rankedSvc) {
   var service = {};
 
   // Possible & current search configurations
@@ -82,6 +82,16 @@ module.exports = function ($http, $rootScope) {
       return search_local(term);
     else
       return search_web(term);
+  };
+
+
+  // proxy the rankedSvc's reRank method
+  service.reRank = (term, hits, cb) => {
+    return rankedSvc.reRank(term, hits, cb, {
+      JACC: OPTS.JACC,
+      COS: OPTS.COS,
+      type: $rootScope.config.current.algor
+    });
   };
 
   return service;

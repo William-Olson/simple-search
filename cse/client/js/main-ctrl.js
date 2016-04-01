@@ -29,31 +29,44 @@ module.exports = ($scope, mainSvc, $rootScope) => {
     }
   };
 
+  // TODO: display dialogs for errors
+  // ui-router options on same level as search
+  // + stateful searches, ex: search/foo
+
   // the re-rank triggering method
   $scope.reRank = (term) => {
     let count = $scope.relCount();
     if(count > 0 && count <= 5){
-      let arr = $scope.hits.filter(h => h.rel);
-      console.log('rels: ', arr);
+      if(!term || term === ''){
+        console.error('Error: Can\'t re-rank, term input is empty!');
+        return;
+      }
+      let hits = angular.copy($scope.hits);
+      reset();
+      $scope.working = true;
+      mainSvc.reRank(term, hits, (err, data) => {
+        if(err) console.error('Error: A reRank error has occurred!\n', err);
+        else{
+          $scope.hits = data;
+          $scope.hits.forEach((h) => { h.rel = false; } );
+        }
+        $scope.working = false;
+      });
     }
   };
 
   // selects search box with cursor
-  $scope.focusSrch = (st) => {
-    $('#srchbox').focus();
-  };
+  $scope.focusSrch = () => { $('#srchbox').focus(); };
 
   // get the number of relevant checks made
   $scope.relCount = () => {
     if($scope.hits)
       return $scope.hits.filter(h => h.rel).length;
     else return 0;
-  }
+  };
 
   //focus on search box on page load
-  setTimeout( () => {
-    $('#srchbox').focus();
-  }, 100);
+  setTimeout($scope.focusSrch, 100);
 
   // display global setting changes automatically
   $rootScope.$watch('config.current', (changed) => {

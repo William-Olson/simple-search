@@ -8,14 +8,5 @@
   .query-area
     input#srchbox(placeholder="Enter Text Here...", ng-model="qterm", enter-trigger)
     #srchbtn.btn(ng-click="search(qterm)", ui-sref="results({term: qterm})") Search
-    .btn.tooltipped(ng-click="reset(); qterm = ''; focusSrch();") Clear
-    .right
-      .row
-        small.col.s-primary(ng-if="opts.ranked && (relCount() == 0 || relCount() > 5)")
-          | (Select 1 to 5 Relevant Results)
-        .col.btn(
-          ng-click="reRank(qterm)",
-          ng-show="opts.ranked",
-          ng-class="{disabled: (opts.ranked && (relCount() == 0 || relCount() > 5))}"
-        ) Rerank
+    .btn.tooltipped(ui-sref="search", ng-click="qterm=''; focusSrch()") Clear
   ui-view

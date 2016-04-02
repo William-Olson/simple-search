@@ -2,7 +2,7 @@
 module.exports = function (){
 
 //@ngInject
-return function($stateProvider, $urlRouterProvider){
+return function($stateProvider, $urlRouterProvider, mainSvc){
 
   $urlRouterProvider.otherwise('/404');
   $urlRouterProvider.when('', '/');
@@ -10,7 +10,6 @@ return function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state('main', {
       url: '',
-      controller: 'mainCtrl',
       templateUrl: 'views/main.html'
     })
     .state('options', {
@@ -27,7 +26,7 @@ return function($stateProvider, $urlRouterProvider){
     })
     .state('results', {
       url: 'search/:term',
-      controller: 'mainCtrl',
+      controller: 'resultsCtrl',
       parent: 'search',
       templateUrl: 'views/results.html'
     })

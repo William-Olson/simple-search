@@ -34,7 +34,8 @@ module.exports = () => {
   service.reRank = (term, hits, cb, opts) => {
     let results = [];
     //TODO: implement this
-    console.log('running reRank(' + term + ', arr[' + hits.length + '], cb, ', opts);
+    console.log('running reRank(' + term +
+      ', arr[' + getRels(hits).length + '], cb, ', opts);
     console.log(');');
 
     //create the combined doc

@@ -8,6 +8,7 @@ var search = angular.module('search', [
 search
   // controllers
   .controller('mainCtrl', require('./main-ctrl'))
+  .controller('resultsCtrl', require('./results-ctrl'))
   .controller('optionCtrl', require('./option-ctrl'))
 
   // services

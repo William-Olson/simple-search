@@ -1,12 +1,16 @@
 .search-area
   //- config button
-  .configuration-area.row.valign-wrapper.right
-    #opt-btn.btn-flat(ui-sref="options")
-      .col.valign #[label.s-primary Options]
-      .col.valign #[i.material-icons.s-primary settings]
+  .row#opt-btn.btn-flat(ui-sref="options")
+    .col.valign #[label.s-primary Options]
+    .col.valign #[i.material-icons.s-primary settings]
+
   //- search input
   .query-area
     input#srchbox(placeholder="Enter Text Here...", ng-model="qterm", enter-trigger)
     #srchbtn.btn(ng-click="search(qterm)", ui-sref="results({term: qterm})") Search
     .btn.tooltipped(ui-sref="search", ng-click="qterm=''; focusSrch()") Clear
+    .opt-badges.right
+      .tiny-badge {{ opts.search + ' Search' }}
+      .tiny-badge(ng-if="opts.ranked") Ranked Mode
+      .tiny-badge(ng-if="opts.ranked") {{ opts.algor }}
   ui-view

@@ -1,14 +1,13 @@
 .results-area
+  .row.right
+    small.col.s-primary(ng-if="opts.ranked && (relCount() == 0 || relCount() > 5)")
+      | (Select 1 to 5 Relevant Results)
+    #rerank-btn.col.btn(
+      ng-click="reRank(qterm)",
+      ng-show="opts.ranked",
+      ng-class="{disabled: (opts.ranked && (relCount() == 0 || relCount() > 5))}"
+    ) Rerank
   .row
-    .right
-      .row
-        small.col.s-primary(ng-if="opts.ranked && (relCount() == 0 || relCount() > 5)")
-          | (Select 1 to 5 Relevant Results)
-        .col.btn(
-          ng-click="reRank(qterm)",
-          ng-show="opts.ranked",
-          ng-class="{disabled: (opts.ranked && (relCount() == 0 || relCount() > 5))}"
-        ) Rerank
   //- results area
   .row.valign-wrapper.card(ng-repeat="h in hits")
     .col.s1.valign.left-align

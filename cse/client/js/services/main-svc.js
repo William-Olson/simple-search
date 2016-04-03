@@ -28,6 +28,15 @@ module.exports = function ($http, $rootScope, rankedSvc) {
       }
   };
 
+  // for headers on pages
+  $rootScope.pageTitle = {
+    val: 'App'
+  };
+
+  service.setPageTitle = (value) => {
+    if(value) $rootScope.pageTitle.val = value;
+  };
+
   // Retrieve the current config options.
   service.getConfig = () => {
     return angular.copy($rootScope.config);

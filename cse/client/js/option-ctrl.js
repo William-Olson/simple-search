@@ -6,6 +6,7 @@ module.exports = ($scope, mainSvc, $state) => {
   //get current settings
   const OPTS = mainSvc.getEnums();
   let config = mainSvc.getConfig();
+  mainSvc.setPageTitle('Options');
 
   //display current settings
   $scope.opts = config.available;

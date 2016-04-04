@@ -10,29 +10,29 @@ return function($stateProvider, $urlRouterProvider, mainSvc){
   $stateProvider
     .state('main', {
       url: '',
-      templateUrl: 'views/main.html'
+      templateUrl: 'views/partials/main.html'
     })
     .state('options', {
       url: '/config',
       controller: 'optionCtrl',
       parent: 'main',
-      templateUrl: 'views/options.html'
+      templateUrl: 'views/partials/options.html'
     })
     .state('search', {
       url: '/',
       controller: 'mainCtrl',
       parent: 'main',
-      templateUrl: 'views/search.html'
+      templateUrl: 'views/partials/search.html'
     })
     .state('results', {
       url: 'search/:term',
       controller: 'resultsCtrl',
       parent: 'search',
-      templateUrl: 'views/results.html'
+      templateUrl: 'views/partials/results.html'
     })
     .state('404', {
       url: '/404',
-      templateUrl: 'views/404.html'
+      templateUrl: 'views/partials/404.html'
     });
   };
 

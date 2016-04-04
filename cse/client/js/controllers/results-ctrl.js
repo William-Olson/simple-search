@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-module.exports = ($scope, mainSvc, $state, $stateParams) => {
+module.exports = ($scope, mainSvc, searchSvc, $stateParams) => {
 
   // handle route params
   let term = $stateParams.term;
@@ -17,12 +17,13 @@ module.exports = ($scope, mainSvc, $state, $stateParams) => {
     $scope.hits = [];
   };
 
-  //perform the search --------------
+  // PERFORM SEARCH:
+  // --------------------------------------------------------
   reset();
   if(term && term !== ''){
     $scope.working = true;
     term = angular.lowercase(term); //insensitive searches
-    mainSvc.search(term).then((resp) => {
+    searchSvc.search(term).then((resp) => {
       if(resp.data !== 'Error'){
         $scope.hits = angular.copy(resp.data.items);
         $scope.hits.forEach((h) => { h.rel = false; } );
@@ -32,7 +33,7 @@ module.exports = ($scope, mainSvc, $state, $stateParams) => {
       $scope.working = false;
     });
   }
-  // --------------------------------
+  // --------------------------------------------------------
 
   // the re-rank triggering method
   $scope.reRank = (term) => {
@@ -45,7 +46,7 @@ module.exports = ($scope, mainSvc, $state, $stateParams) => {
       let hits = angular.copy($scope.hits);
       reset();
       $scope.working = true;
-      mainSvc.reRank(term, hits, (err, data) => {
+      searchSvc.reRank(term, hits, (err, data) => {
         if(err) console.error('Error: A reRank error has occurred!\n', err);
         else{
           $scope.hits = data;

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var searcher = require('../searcher');
+var searcher = require('./searcher');
 
 
 /* GET home page. */

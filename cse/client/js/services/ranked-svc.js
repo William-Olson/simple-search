@@ -4,17 +4,12 @@
 module.exports = () => {
   var service = {};
 
+
   // Creates array containing only relevant hits.
   let getRels = (hits) => {
     return hits.filter(h => h.rel);
   };
 
-  // Convert docStr to a vector (Array of type Number).
-  let getVec = (docStr) => {
-    let result = [];
-    //TODO: implement this
-    return result;
-  };
 
   // Calc Cosine Similarity.
   let cmpCos = (docVec1, docVec2) => {
@@ -23,12 +18,14 @@ module.exports = () => {
     return result;
   };
 
+
   // Calc Jaccard Similarity.
   let cmpJac = (docVec1, docVec2) => {
     let result = -1.0;
     //TODO: implement this
     return result;
   };
+
 
   // Rerank the current web search results.
   service.reRank = (term, hits, cb, opts) => {

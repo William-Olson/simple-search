@@ -1,3 +1,6 @@
 node_modules
 cse/server/build
 cse/.env
+data/target
+data/data.json
+data/data_min.json

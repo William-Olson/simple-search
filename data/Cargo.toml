@@ -1,0 +1,9 @@
+[package]
+name = "repo_collector"
+version = "0.1.0"
+authors = ["William Olson <willko747@gmail.com>"]
+
+
+[dependencies]
+hyper = "0.8.0"
+rustc-serialize = "0.3"

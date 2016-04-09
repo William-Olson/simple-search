@@ -1,5 +1,5 @@
 [root]
-name = "repo_scraper"
+name = "repo_collector"
 version = "0.1.0"
 dependencies = [
  "hyper 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",

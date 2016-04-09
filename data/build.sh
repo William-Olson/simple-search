@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # build the image
-docker build -t repo_scraper . ;
+docker build -t ss_data . ;
 
 exit ;

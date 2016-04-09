@@ -11,4 +11,6 @@ VOLUME /data
 
 RUN cargo build
 
-CMD ["/data/target/debug/repo_collector"]
+RUN /data/target/debug/repo_collector
+
+CMD ["bash"]

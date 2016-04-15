@@ -16,7 +16,7 @@ ss_nginx:
 ss_elastic:
   image: elasticsearch:2.3
   ports:
-    - "9300:9000"
+    - "9200:9200"
 
 ss_data:
   build: ./data

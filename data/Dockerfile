@@ -5,12 +5,15 @@ RUN apt-get update && \
 
 ENV TERM xterm
 
-COPY ./ /data
+RUN mkdir -p /data/src
+COPY ./Cargo.toml /data
+COPY ./Cargo.lock /data
+COPY ./src /data/src
+
 WORKDIR /data
-VOLUME /data
 
-RUN cargo build
+RUN cargo build --release
 
-RUN /data/target/debug/repo_collector
+RUN ls -1Fs --block-size=K /data
 
-CMD ["bash"]
+CMD target/release/repo_collector ; bash

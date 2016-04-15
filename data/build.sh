@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # build the image
-docker build -t ss_data . ;
+docker build -t repo_collector . ;
 
 exit ;

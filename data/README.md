@@ -7,38 +7,24 @@ either me or people I follow.
 Collects repo information through github and bitbucket
 api, filters it, and then outputs it to a JSON file.
 
-#### Pre-Setup
+**Notes**
 
-**Linux**
+Requires libssl-dev. (Installed in docker container.)
 
-Make sure you have libssl-dev. Ubuntu users can run:
+#### Build & Run with Docker
 
-```
-sudo apt-get install libssl-dev
-```
+You can run repo_collector independently with the build
+and run scripts provided.
 
-**Mac**
+Build it:
 
-Mac should already have libssl by default.
-
-
-**Windows**
-
-Please follow the same requirements as [rust-openssl][rsossl]
-(the [rust-hyper][hyper] library causes this dependency).
-
-
-#### Run
-
-```
-cargo run
+```bash
+  ./build.sh
 ```
 
+Run it:
 
-#### Docker
+```bash
+  ./run.sh
+```
 
-If you have docker installed you can use the `build.sh` script for 
-building an image and `run.sh` for running it.
-
-[rsossl]: https://github.com/sfackler/rust-openssl#windows
-[hyper]: https://github.com/hyperium/hyper

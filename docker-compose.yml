@@ -11,13 +11,21 @@ ss_nginx:
     - "80:80"
   links:
     - ss_cse:ss_cse
+    - ss_elastic:ss_elastic
 
 ss_elastic:
   image: elasticsearch:2.3
-  volumes_from:
-    - ss_data
+  ports:
+    - "9300:9000"
 
 ss_data:
   build: ./data
   volumes:
     - /data
+
+ss_indexer:
+  build: ./indexer
+  links:
+    - ss_elastic:ss_elastic
+  volumes_from:
+    - ss_data

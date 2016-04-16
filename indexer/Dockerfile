@@ -9,4 +9,4 @@ RUN cd /indexer && \
 
 WORKDIR /indexer
 
-CMD node /indexer/index.js ; bash
+CMD node /indexer/index.js; bash

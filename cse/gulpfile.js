@@ -29,6 +29,7 @@ var paths = {
       , tmp: 'server/build/_tmp'
       , entry_point: 'server/build/_tmp/index.js'
       , exit_point: 'index.js'
+      , static: 'server/resources/**/*js'
   },
   styles: {
         src: 'client/**/*styl'
@@ -54,6 +55,11 @@ gulp.task('min_bundle', ['bundle_min'], function (){
   shell.exec('rm -r ' + paths.js.tmp);
 });
 
+
+gulp.task('cp_js_libs', () => {
+  return gulp.src(paths.js.static)
+    .pipe(gulp.dest(paths.js.dest));
+});
 
 
 gulp.task('lint', function() {
@@ -141,7 +147,26 @@ gulp.task('watch', function() {
   gulp.watch(['gulpfile.js', paths.styles.src], ['stylus']);
 });
 
-// --- main:
+// --- main tasks:
+
+//clean up task
 gulp.task('clean', ['clean_js', 'clean_views', 'clean_css']);
-gulp.task('build', ['watch', 'dev_bundle', 'lint', 'jade', 'stylus']);
-gulp.task('pro', ['min_bundle', 'lint', 'jade', 'stylus']);
+
+//dev builds
+gulp.task('build', [
+                'watch'
+              , 'dev_bundle'
+              , 'cp_js_libs'
+              , 'lint'
+              , 'jade'
+              , 'stylus'
+          ]);
+
+//production builds
+gulp.task('pro', [
+                'min_bundle'
+              , 'cp_js_libs'
+              , 'lint'
+              , 'jade'
+              , 'stylus'
+          ]);

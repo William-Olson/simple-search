@@ -1,41 +1,61 @@
+#!/bin/env node
 'use strict';
 
 let elastic = require('elasticsearch');
+let bulkArr = [];
 let data;
 
-// sanity check, bail on no data
-try {
-  data = require('/data/data.json');
-} catch(err) {
-  console.error('Err: ', err);
-  return;
+
+
+
+//------------
+
+//wait ~5s for required containers
+// to link port-services & volumes
+//then do indexing of data.
+setTimeout(() => {
+  getData();
+  indexData();
+}, 5000);
+
+//------------
+
+
+
+
+
+// Loads data from the data container
+function getData() {
+  try {
+    data = require('/data/data.json');
+  } catch(err) {
+    process.exit(-1);
+  }
+  // build a body array for indexing in bulk fashion
+  data.forEach((d) => {
+    console.log('BULK_INDEXING: ' + d.owner.handle + '/' + d.name);
+    bulkArr.push({ index:  { _index: 'localdata', _type: 'repos' } });
+    bulkArr.push(d);
+  });
+
 }
 
+// Adds data to Elasticsearch.
+function indexData() {
+  //create elastic client
+  let client = elastic.Client({
+    host: 'ss_elastic:9200'
+  });
 
-//create elastic client
-let client = elastic.Client({
-  host: 'ss_elastic:9200'
-  // , log: 'trace'
-});
-
-// build a body array for indexing in bulk fashion
-let bodyArr = [];
-data.forEach((d) => {
-  bodyArr.push({ index:  { _index: 'main', _type: 'repo' } });
-  bodyArr.push(d);
-  console.log('setting up (', d.owner.handle, ', ', d.name,
-              ') for bulk indexing');
-});
-
-// do indexing
-client.bulk({
-  body: bodyArr
-}, (err, resp) => {
-  if(err){
-    console.error('AN ERROR HAS OCCURRED');
-    console.error(err);
-  } else{
-    console.log('BULK INDEXING SUCCESSFULL');
-    //console.log(resp);
-  }
-});
+  // do indexing
+  client.bulk({
+    body: bulkArr
+  }, (err, resp) => {
+    if(err){
+      console.error('AN ERROR HAS OCCURRED\n', err);
+      process.exit(-1);
+    } else{
+      console.log('BULK INDEXING SUCCESSFULL');
+    }
+  });
+}

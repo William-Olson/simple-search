@@ -1,0 +1,10 @@
+{
+  "directory": "server/resources/lib",
+  "analytics": false,
+  "timeout": 120000,
+  "interactive": false,
+  "color": true,
+  "scripts": {
+  	"preinstall": "mkdir -p server/resources/lib"
+  }
+}

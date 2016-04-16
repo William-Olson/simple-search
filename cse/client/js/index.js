@@ -3,6 +3,7 @@
 var search = angular.module('search', [
         'ui.router'
       , 'ngSanitize'
+      , 'elasticsearch'
 ]);
 
 search
@@ -15,6 +16,9 @@ search
   .service('rankedSvc', require('./services/ranked-svc'))
   .service('mainSvc', require('./services/main-svc'))
   .service('searchSvc', require('./services/search-svc'))
+  .service('elasticSrch', (esFactory) => {
+    return esFactory({host: 'localhost/ls'});
+  })
 
   // directives
   // .directive('dynTootip', require('./directives/dyn-tooltip'))

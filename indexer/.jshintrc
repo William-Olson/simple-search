@@ -1,0 +1,15 @@
+{
+    "undef" : true,
+    "esnext": true,
+    "unused" : true,
+    "globalstrict": true,
+    "node": true,
+    "browser": true,
+    "laxcomma": true,
+    "globals": {
+      "$": false,
+      "angular": false,
+      "module": false,
+      "inject": false
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "cse",
+  "description": "custom search engine",
+  "main": "",
+  "authors": [
+    "Will Olson <willko747@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "google",
+    "local",
+    "search",
+    "material"
+  ],
+  "homepage": "wko.io/cse",
+  "private": true,
+  "ignore": [
+    ".env",
+    "node_modules",
+    "bower_components",
+    "server/resources/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "elasticsearch": "^11.0.1"
+  }
+}

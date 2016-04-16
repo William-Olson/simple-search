@@ -3,9 +3,12 @@
 
 
 // @ngInject
-module.exports = function ($http, $rootScope, mainSvc, rankedSvc) {
+module.exports = function ($http, $rootScope, mainSvc, rankedSvc, elasticSrch) {
   var service = {};
   const OPTS = mainSvc.getEnums();
+
+
+  console.log(elasticSrch);
 
   // Available METHODS:
   // ------------------------------------------------------------

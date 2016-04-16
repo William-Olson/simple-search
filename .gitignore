@@ -1,5 +1,6 @@
 node_modules
 cse/server/build
+cse/server/resources/lib/
 cse/.env
 data/target
 data/data.json

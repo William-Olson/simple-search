@@ -3,17 +3,20 @@
 
 #### TODO
 
- - google api
- - search term pre-processing
-   - stop words
-   - normalization
-   - stemming
-   - lemmatization
- - dockerize & link cse with nginx
- - implement relavent searches
-   - relavent result selection
-   - concat selections to a document
-   - Cosine similarity algorithm
-   - sorted search results on re-rank
- - find some data for local searching
- - implement a lucene integration
+ * **Re-Ranking**
+   * stop words
+   * stemming / normalization
+   * concat selections to a `new_doc`
+   * create vectors from `new_doc` & results
+   * use `new_doc` as query & compute ranks
+   * Cosine similarity algorithm
+   * Jaccard algorithm
+   * sort by rank
+ * **Local Searches**
+   * implement search method
+   * result list partial view
+ * **Checklist**
+   * Matched Term Preprocessing
+     * local: search / indexing
+     * web: search / reranking
+   * Write Up

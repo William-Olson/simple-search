@@ -5,3 +5,4 @@ cse/.env
 data/target
 data/data.json
 data/data_min.json
+.vagrant

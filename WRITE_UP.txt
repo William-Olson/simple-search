@@ -1,19 +1,39 @@
-IMPLEMENTATION	
+Project
+
+  IMPLEMENTATION	
+    Platforms used (ubuntu, Docker)
+    Languages used (Javascript, Dockerfile, yml, bash)
+    Vector-Space-Model description
+    Similarity-Measure used
+
+  OBSERVATIONS
+    Experiments Performed
+    Re-Ranking Outcomes
+    Comparison-of-Measures
+
+  COMMENTS
+    Extra-Notes to add
 
 
 
-DOCUMENT COLLECTION
+Optional Extended Project
+
+	IMPLEMENTATION
 
 
 
-EXAMPLE QUERIES
+	DOCUMENT COLLECTION
 
 
 
-OBSERVATIONS
+	EXAMPLE QUERIES
 
 
 
-COMMENTS
+	OBSERVATIONS
+
+
+
+	COMMENTS
 
 

@@ -1,40 +1,180 @@
-Project
-
-  IMPLEMENTATION	
-    Platforms used (ubuntu, Docker)
-    Languages used (Javascript, Dockerfile, yml, bash)
-    Vector-Space-Model description
-    Similarity-Measure used
-
-  OBSERVATIONS
-    Experiments Performed
-    Re-Ranking Outcomes
-    Comparison-of-Measures
-
-  COMMENTS
-    Extra-Notes to add
-
-
-
-Optional Extended Project
+Project ------------------------------------------------------------------------------
 
   IMPLEMENTATION
-    Platforms
-    Languages (+rust, )
 
+    Platform Environment 
+
+      Ubuntu 14.04, Docker 1.10.3
+
+    Successfully built on
+
+      Ubuntu14&15: with Docker
+      Mac:         with Docker
+      Windows10:   with Vagrant & Virtualbox (& with Docker)
+
+      (See README file for build instructions)
+
+    Docker Containers used
+
+      cse:          Node.js         (official)
+      nginx:        Nginx           (official)
+
+    Languages used
+
+      Javascript,
+      JSON,
+      Dockerfile,
+      yml,
+      nginx,
+      bash,
+      Vagrant/Ruby
+
+    Vector-Space-Model description
+      [TODO]
+
+    Similarity-Measure used
+      [TODO]
+
+  OBSERVATIONS
+
+    Experiments Performed
+      [TODO]
+
+    Re-Ranking Outcomes
+      [TODO]
+
+    Comparison-of-Measures
+      [TODO]
+
+  COMMENTS
+
+    Extra-Notes to add
+      [TODO]
+
+
+Optional Extended Project ------------------------------------------------------------
+
+  IMPLEMENTATION
+
+    Platforms: 
+
+      Same as above (Ubuntu, Docker).
+
+    Languages: 
+
+      All mentioned above 
+      + Rust now for I.R. App.
+
+    Added Containers
+
+      data:         scorpil/rust    (jessie container with cargo installed)
+      indexer:      Node.js         (official)
+      elastic:      Elasticsearch   (official)
 
   DOCUMENT COLLECTION
 
+    The document collection consists of documents
+    representing project repositories.  These
+    are only repositories created or forked either
+    by me personally or people that I follow on github.
+
+    This makes it easy to search any of my friends'
+    projects for specific terms before searching
+    the whole web for my information need.  It is
+    after all, a lot more fun to work with your friends
+    code rather than some random stranger's code.
+
+    The data for each document is collected from
+    github API & bitbucket API but this is done
+    prior to running the cse App.  The API calls
+    and data gathering is carried out by a Rust
+    program in the data directory of the project.
+    It pulls repository data and filters it down
+    to only a few fields, then outputs it to a file
+    in JSON format.  A filtered document looks like
+    the following:
+
+      "description": "Sauce Labs and Travis CI Simple Setup",
+        "host": "github",
+        "lang": "JavaScript",
+        "name": "SauceTest",
+        "owner": {
+          "avatar_url": "https://avatars.githubusercontent.com/u/6138926?v=3",
+          "handle": "William-Olson",
+          "html_url": "https://github.com/William-Olson"
+        },
+        "private": false,
+        "url": "https://github.com/William-Olson/SauceTest"
+      },
+
+    The static JSON file generated from the Rust App is
+    later read by a Node.js terminal App that simply reads
+    in the JSON file, adds indexing headers for each document,
+    indexes the documents in bulk fashion to Elasticsearch,
+    then exits. This Node.js terminal App can be found in the
+    indexer directory of the project.
 
 
   EXAMPLE QUERIES
+    
+    Note: All queries below should be
+          entered WITHOUT the quotes.
+    
+    Any of these: 
 
+      'test', 'file', 'Austin', 'Mdekstrand',
+      'python', 'java', 'C++', 'LISP', 'ShElL'
 
 
   OBSERVATIONS
 
+    You can get all the indexed items by searching
+    an asterisk:
+
+      '*'
+
+    Searching Fields:
+
+      By default elasticsearch will search all fields
+      of each document for terms matching the query term,
+      but I found that you can specify individual fields
+      with the colon operator:
+
+        'name:Training', 'description:CODE'
+
+      You can also get all indexed documents with
+      the private field (all repos are public):
+
+        'private:false'
+
+    You can also use boolean operators (for intersections/unions):
+      
+      AND:
+
+        'owner.handle:willko && lang:nodejs'
+
+      OR:
+
+        'owner.handle:andrewthornton lang:rust'
 
 
   COMMENTS
 
+    I only used Elasticsearch's most basic
+    of query methods in its API. There are
+    lots of direct mappings between Elastic's
+    API and Lucene's, so this little app could
+    be extended even furthur to do quite a lot
+    of things.
 
+    I could prevent the above observations
+    if they were a vulnerability to the app,
+    but I left them there for experimenting.
+    
+    Ideally you would want to restrict the
+    query logic for the app to handle, & 
+    not expose the service to malicious user
+    queries.
+
+
+End

@@ -17,8 +17,6 @@ search
   .service('searchSvc', require('./services/search-svc'))
 
   // directives
-  // .directive('dynTootip', require('./directives/dyn-tooltip'))
-  // .directive('dynCollapse', require('./directives/dyn-collapse'))
   .directive('loadWheel', require('./directives/load-wheel'))
   .directive('enterTrigger', require('./directives/enter-trigger'));
 

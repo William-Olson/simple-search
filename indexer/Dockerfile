@@ -5,7 +5,7 @@ ADD ./index.js /indexer/index.js
 ADD ./package.json /indexer/package.json
 
 RUN cd /indexer && \
-    npm install
+    npm install --quiet
 
 WORKDIR /indexer
 

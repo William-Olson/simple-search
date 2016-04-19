@@ -8,17 +8,36 @@
       ng-class="{disabled: (opts.ranked && (relCount() == 0 || relCount() > 5))}"
     ) Rerank
   .row
-  //- results area
-  .row.valign-wrapper.card(ng-repeat="h in hits")
-    .col.s1.valign.left-align
-      | {{$index + 1}}
-    .result-content-area.section.col.s9.valign
-      h6.result-title-area(ng-bind-html="h.htmlTitle")
-      .s-primary(ng-bind-html="h.htmlSnippet")
-      a(href="{{h.link}}", ng-bind-html="h.htmlFormattedUrl")
-    .col.s2.valign.right-align
-      .checks(ng-if="opts.ranked")
-        span.left-align #[small Relevant #[br]]
-        input.tooltipped(type="checkbox", id="rel-chbx-{{$index}}", ng-model="h.rel")
-        label(for="rel-chbx-{{$index}}")
+  //- web results area
+  .web-results(ng-show="opts.search==='Web'")
+    .row.valign-wrapper.card(ng-repeat="h in hits")
+      .col.s1.valign.left-align
+        | {{$index + 1}}
+      .result-content-area.section.col.s9.valign
+        h6.result-title-area(ng-bind-html="h.htmlTitle")
+        .s-primary(ng-bind-html="h.htmlSnippet")
+        a(href="{{h.link}}", ng-bind-html="h.htmlFormattedUrl", target="_blank")
+      .col.s2.valign.right-align
+        .checks(ng-if="opts.ranked")
+          span.left-align #[small Relevant #[br]]
+          input.tooltipped(type="checkbox", id="rel-chbx-{{$index}}", ng-model="h.rel")
+          label(for="rel-chbx-{{$index}}")
+  //- local results area
+  .local-results(ng-show="opts.search==='Local'")
+    .row.valign-wrapper.card(
+      ng-repeat="h in hits"
+      ng-class="'host-' + h.host"
+    )
+      .col.s1.valign.left-align
+        | {{$index + 1}}
+      .result-content-area.section.col.s7.valign(ng-class="'lang-' + toLang(h.lang)")
+        h6.result-title-area() {{h.name}}
+        .s-primary() {{h.description}}
+        a(ng-if="h.url", ng-href="{{h.url}}", target="_blank") {{h.url}}
+      .col.s2.valign.center-align
+        .tiny-badge(ng-class="'tiny-' + toLang(h.lang)") {{h.lang}}
+      .col.s2.valign.center-align(ng-if="h.owner")
+        img.ava.circle(ng-src="{{h.owner.avatar_url}}")
+        br
+        a.usr-lnk(ng-href="{{h.owner.html_url}}", target="_blank") {{h.owner.handle}}
   .load-wheel.center-align(show-trigger="working")

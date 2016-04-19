@@ -1,5 +1,8 @@
 FROM node:latest
 
+ENV TERM xterm
+ENV DEBUG "cse"
+
 RUN mkdir -p /site/server
 
 ADD ./server/ /site/server
@@ -10,20 +13,15 @@ COPY ./gulpfile.js /site/
 COPY ./.bowerrc /site/
 COPY ./.jshintrc /site/
 
-
 WORKDIR /site
 
-ENV TERM xterm
+RUN npm install -g --quiet gulp
+RUN npm install -g --quiet nodemon
+# RUN npm install -g --quiet bower
 
-ENV DEBUG "cse"
+RUN npm install --quiet && \
+	gulp pro 
 
-RUN npm install -g gulp && \
-	npm install -g nodemon && \
-	npm install -g bower nodemon && \
-	npm install && \
-	bower install --allow-root
-
-RUN gulp pro
-
+# RUN bower install --allow-root
 
 CMD nodemon /site/server/bin/www

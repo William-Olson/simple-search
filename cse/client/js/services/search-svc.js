@@ -3,53 +3,27 @@
 
 
 // @ngInject
-module.exports = function ($http, $rootScope, mainSvc, rankedSvc, elasticSrch) {
+module.exports = function ($http, $rootScope, mainSvc, rankedSvc) {
   var service = {};
   const OPTS = mainSvc.getEnums();
 
 
-  console.log(elasticSrch);
-
   // Available METHODS:
   // ------------------------------------------------------------
 
-
-  /*
-	search_web:
-		uses googles api on backend for
-		web query searches
-
-	returned payloads look like this (filtered for brevity):
-		response.data.items = [ {
-		  displayLink: "nodeberlin.com"
-		  formattedUrl: "nodeberlin.com/"
-		  htmlFormattedUrl: "<b>node</b>berlin.com/"
-		  htmlSnippet: "<b>NODE</b> is currently at ..."
-		  htmlTitle: "<b>NODE</b> Berlin Oslo — Graphic Design Studio"
-		  link: "http://nodeberlin.com/"
-		  snippet: "NODE is currently at MIT ..."
-		  title: "NODE Berlin Oslo — Graphic Design Studio"
-		} ... ]
-  */
-  let search_web = (term) => {
-  	return $http.get('ws/' + term);
-  };
-
-  // Search local documents.
-  let search_local = (term) => {
-    //TODO: implement this
-  };
-
-  // Search delegator function
+  // search: delegator function for both local & web searches.
+  // makes calls to the cse nodejs server (see routes.js
+  // in the server directory to see how it handles these
+  // requests on the backend).
   service.search = (term) => {
     if($rootScope.config.current.search == OPTS.LOC)
-      return search_local(term);
+      return $http.get('ls/' + term);
     else
-      return search_web(term);
+      return $http.get('ws/' + term);
   };
 
 
-  // proxy the rankedSvc's reRank method
+  // reRank: make rankedSvc's method available here
   service.reRank = (term, hits, cb) => {
     return rankedSvc.reRank(term, hits, cb, {
       JACC: OPTS.JACC,

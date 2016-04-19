@@ -18,22 +18,23 @@ Project
 
 Optional Extended Project
 
-	IMPLEMENTATION
+  IMPLEMENTATION
+    Platforms
+    Languages (+rust, )
+
+
+  DOCUMENT COLLECTION
 
 
 
-	DOCUMENT COLLECTION
+  EXAMPLE QUERIES
 
 
 
-	EXAMPLE QUERIES
+  OBSERVATIONS
 
 
 
-	OBSERVATIONS
-
-
-
-	COMMENTS
+  COMMENTS
 
 

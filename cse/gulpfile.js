@@ -156,7 +156,7 @@ gulp.task('clean', ['clean_js', 'clean_views', 'clean_css']);
 gulp.task('build', [
                 'watch'
               , 'dev_bundle'
-              , 'cp_js_libs'
+              // , 'cp_js_libs'
               , 'lint'
               , 'jade'
               , 'stylus'
@@ -165,7 +165,7 @@ gulp.task('build', [
 //production builds
 gulp.task('pro', [
                 'min_bundle'
-              , 'cp_js_libs'
+              // , 'cp_js_libs'
               , 'lint'
               , 'jade'
               , 'stylus'

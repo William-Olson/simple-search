@@ -3,6 +3,8 @@ ss_cse:
   ports:
     - "3000"
   env_file: ./cse/.env
+  links:
+    - ss_elastic:ss_elastic
 
 ss_nginx:
   restart: always

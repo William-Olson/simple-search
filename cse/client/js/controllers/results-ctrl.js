@@ -25,8 +25,19 @@ module.exports = ($scope, mainSvc, searchSvc, $stateParams) => {
     term = angular.lowercase(term); //insensitive searches
     searchSvc.search(term).then((resp) => {
       if(resp.data !== 'Error'){
-        $scope.hits = angular.copy(resp.data.items);
-        $scope.hits.forEach((h) => { h.rel = false; } );
+        if($scope.opts.search === OPTS.LOC){
+          if(resp.statusText === 'OK')
+            resp.data.hits.hits.forEach((h) => {
+              $scope.hits.push(h._source);
+            });
+          if($scope.hits.length === 0)
+            $scope.hits.push({name: 'Uh oh..',
+              description: 'No results. \n' +
+              'Try searching your favorite programming language.'});
+        } else {
+          $scope.hits = angular.copy(resp.data.items);
+          $scope.hits.forEach((h) => { h.rel = false; } );
+        }
       } else {
         console.error('An Error Has occurred')
       }
@@ -63,6 +74,17 @@ module.exports = ($scope, mainSvc, searchSvc, $stateParams) => {
       return $scope.hits.filter(h => h.rel).length;
     else return 0;
   };
+
+  $scope.toLang = (str) => {
+    let chipTag = angular.lowercase(str);
+    if(chipTag){
+      chipTag = chipTag.replace(/[ ]/g, '-');      // emacs lisp => emacs-lisp
+      chipTag = chipTag.replace(/[+]/g, 'p');      // c++ => cpp
+      chipTag = chipTag.replace(/[#]/g, '-sharp'); // f#  => f-sharp
+    }
+    return chipTag;
+  }
+
 
 
 };

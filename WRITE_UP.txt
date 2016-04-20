@@ -133,6 +133,17 @@ Optional Extended Project ------------------------------------------------------
 
       '*'
 
+    If your search doesn't come back with any results,
+    you can add asterisks before/after the query terms
+    to produce more results:
+
+      '*term*'
+
+    If I did heavy preprocessing I could avoid this
+    requirement (by stemming/normalizing query terms & 
+    creating an extra field for each document containing
+    a string of the stemmed/normalized words of each field).
+
     Searching Fields:
 
       By default elasticsearch will search all fields
@@ -157,6 +168,17 @@ Optional Extended Project ------------------------------------------------------
 
         'owner.handle:andrewthornton lang:rust'
 
+      Using the OR syntax I can view all my public
+      repos from both github and bitbucket all on
+      one page with the following query:
+
+        'willko William'
+
+      Combo operations are also possible, the following
+      yields all my Javascript & Node.js projects from
+      github & bitbucket:
+
+        'lang:(Javascript Nodejs) && owner.handle:(willko William)'
 
   COMMENTS
 

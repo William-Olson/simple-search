@@ -9,14 +9,14 @@ const OPTS = {
 };
 
 // @ngInject
-module.exports = function ($http, $rootScope) {
+module.exports = function ($http, $rootScope, $localStorage) {
   var service = {};
 
   // $rootScope STRUCTS:
   // ------------------------------------------------------------
 
   // for current & possible search configurations
-  $rootScope.config = $rootScope.config || {
+  $rootScope.config = $localStorage.$default({
       current: {
         search: OPTS.WEB,
         ranked: false,
@@ -26,7 +26,7 @@ module.exports = function ($http, $rootScope) {
         search: [OPTS.WEB, OPTS.LOC],
         algor: [OPTS.JACC, OPTS.COS]
       }
-  };
+  });
 
   // for the global h3 tag on pages
   $rootScope.pageTitle = {

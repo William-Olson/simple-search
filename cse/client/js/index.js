@@ -3,6 +3,7 @@
 var search = angular.module('search', [
         'ui.router'
       , 'ngSanitize'
+      , 'ngStorage'
 ]);
 
 search

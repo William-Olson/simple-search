@@ -5,13 +5,12 @@ const stopWords = require('./stop-words');
 
 let service = {};
 
-// Initialize the doc intermediate representation
+// Initialize the doc intermediate representation (bag of words)
 let init = (hitsArr) => {
   hitsArr.forEach((hit) => {
-  	hit.doc_ir = hit.snippet;
+  	hit.doc_ir = hit.title + ' ' + hit.snippet;
   });
 };
-
 
 // Convert docStr to a vector (Array of type Number).
 let getVec = (docStr) => {
@@ -23,8 +22,10 @@ let getVec = (docStr) => {
 //PHASE 1
 let toLower = (hitsArr) => {
   hitsArr.forEach((hit) => {
-  	hit.doc_ir = hit.doc_ir.toLowerCase();
-  })
+  	hit.doc_ir.forEach((word) => {
+      word = word.toLowerCase();
+    });
+  });
 };
 
 //PHASE 2
@@ -46,6 +47,25 @@ service.craft = (hitsArr) => {
   toLower(hitsArr);
   rmStopWords(hitsArr);
   normalize(hitsArr);
+}
+
+
+
+// helper functions
+
+function vecLen(arrOfNums) {
+  let sum = 0;
+  arrOfNums.forEach((num) => { sum += (num * num); });
+  return Math.sqrt(sum);
+}
+
+function dot(arr1, arr2) {
+  let res = 0;
+  let len = ((arr1.length > arr2.length) ?
+              arr1.length : arr2.length);
+  for(let i = 0; i < len; i++)
+    res += arr1[i] * arr2[i];
+  return res;
 }
 
 module.exports = service;

@@ -5,19 +5,17 @@ const stopWords = require('./stop-words');
 
 let service = {};
 
-// Initialize the doc intermediate representation (bag of words)
+// PHASE 0
+// Initialize the doc intermediate representation (array of terms)
 let init = (hitsArr) => {
   hitsArr.forEach((hit) => {
-  	hit.doc_ir = hit.title + ' ' + hit.snippet;
+    // combine title with snippet into a string
+  	hit.doc_ir = hit.title.trim() + ' ' + hit.snippet.trim();
+    //split string into an array of terms
+    hit.doc_ir = getTermVec(hit.doc_ir);
   });
 };
 
-// Convert docStr to a vector (Array of type Number).
-let getVec = (docStr) => {
-  let result = [];
-  //TODO: implement this
-  return result;
-};
 
 //PHASE 1
 let toLower = (hitsArr) => {
@@ -30,15 +28,41 @@ let toLower = (hitsArr) => {
 
 //PHASE 2
 let rmStopWords = (hitsArr) => {
-
+  hitsArr.forEach((hit) => {
+    for(let i=0; i < hit.doc_ir.length; i++) {
+      if(stopWords.indexOf(term) !== -1) {
+        //remove all these terms from vector
+        hit.doc_ir.splice(term);
+        //try new element at this index on next loop
+        i = i-1;
+      }
+    }
+  });
 };
 
 
 //PHASE 3
 let normalize = (hitsArr) => {
-
+  hitsArr.forEach((hit) => {
+    hit.doc_ir.forEach((term, i, vec) => {
+      vec[i] = stem(term);
+    });
+  });
 };
 
+
+//PHASE 4
+// Convert term vector (Array of terms) to
+// array of tf values (Array of Numbers).
+let getTfVec = (hitsArr) => {
+  hitsArr.forEach((hit) => {
+    let map = buildFreqMap(hit.doc_ir);
+    hit.doc = [];
+    hit.doc_ir.forEach((term, i, arr) => {
+      hit.doc.push(map[term]);
+    });
+  });
+};
 
 
 // Crafts doc properties on result Objects
@@ -51,7 +75,36 @@ service.craft = (hitsArr) => {
 
 
 
+
 // helper functions
+
+// Convert docStr to a vector (Array of terms).
+// splits on regex (matching strings)
+let getTermVec = (docStr) => {
+  return docStr.split(/\s+/);
+};
+
+
+// function getFeq(term, arr) {
+//   let count = 0;
+//   arr.forEach((arrTerm) => {
+//     if(term === arrTerm) count++;
+//   });
+//   return count;
+// }
+
+function buildFeqMap(arr) {
+  let map = {};
+  arr.forEach((t, i, a) => {
+    if(map[t] > 0) continue;
+    map[t] = 0;
+    a.forEach((term) => {
+      if(t === term) map[t] += 1;
+    })
+  });
+  return map;
+}
+
 
 function vecLen(arrOfNums) {
   let sum = 0;

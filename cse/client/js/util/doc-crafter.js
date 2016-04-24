@@ -74,6 +74,34 @@ service.craft = (hitsArr) => {
 }
 
 
+// Builds the combined relevant query doc
+service.build = (relHits) => {
+  let resultDoc = {
+    snippet: '',
+    title: ''
+  };
+
+  //combine relevant hit title/desc vals
+  relHits.forEach((hit) => {
+    resultDoc.snippet += hit.snippet + ' ';
+    resultDoc.title += hit.title + ' '
+  });
+
+  //remove extra space at end
+  resultDoc.snippet.trim();
+  resultDoc.title.trim();
+
+  //use methods to craft vec
+  let arr = [resultDoc];
+  init(arr);
+  toLower(arr);
+  rmStopWords(arr);
+  normalize(arr);
+  
+  console.log('resultDoc: ', arr[0]);
+  return arr[0];
+}
+
 
 
 // helper functions
@@ -93,15 +121,16 @@ let getTermVec = (docStr) => {
 //   return count;
 // }
 
-function buildFeqMap(arr) {
+function buildFeqMap(arrOfTerms) {
   let map = {};
-  arr.forEach((t, i, a) => {
-    if(map[t] > 0) continue;
-    map[t] = 0;
-    a.forEach((term) => {
-      if(t === term) map[t] += 1;
-    })
-  });
+
+  for(let i = 0; i < arrOfTerms.length; i++){
+    if(map[ arrOfTerms[i] ] > 0) continue;
+    map[arrOfTerms[i]] = 0;
+    arrOfTerms.forEach((term) => {
+      if(arrOfTerms[i] === term) map[term] += 1;
+    });
+  }
   return map;
 }
 

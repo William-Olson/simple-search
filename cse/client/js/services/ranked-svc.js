@@ -1,5 +1,8 @@
 'use strict';
 
+var crafter = require('../util/doc-crafter');
+
+
 // @ngInject
 module.exports = () => {
   var service = {};
@@ -31,9 +34,9 @@ module.exports = () => {
   service.reRank = (term, hits, cb, opts) => {
     let results = [];
     //TODO: implement this
-    console.log('running reRank(' + term +
-      ', arr[' + getRels(hits).length + '], cb, ', opts);
-    console.log(');');
+    // console.log('running reRank(' + term +
+    //   ', arr[' + getRels(hits).length + '], cb, ', opts);
+    // console.log(');');
 
     //create the combined doc
 
@@ -46,11 +49,12 @@ module.exports = () => {
         break;
       case opts.COS:
         //compare cosine similarity
+        crafter.craft(hits);
         break;
       default:
         cb(new Error('Bad opt (algor) type!'));
     }
-
+    console.log(hits);
     cb(null, results);
   };
 

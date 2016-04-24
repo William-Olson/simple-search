@@ -19,10 +19,16 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.name = "search_vm"
+    v.gui = false
   end
 
   #use ubuntu-14.04-amd64 base image
   config.vm.box = "ubuntu/trusty64"
+
+
+  #ssh credentials
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
 
   #expose port 80 of vm. Access app at http://localhost/cse
   #(this port must not already be in use by another service)

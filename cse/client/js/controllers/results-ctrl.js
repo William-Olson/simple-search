@@ -39,7 +39,7 @@ module.exports = ($scope, mainSvc, searchSvc, $stateParams) => {
           $scope.hits.forEach((h) => { h.rel = false; } );
         }
       } else {
-        console.error('An Error Has occurred')
+        console.error('An Error Has occurred');
       }
       $scope.working = false;
     });
@@ -83,7 +83,7 @@ module.exports = ($scope, mainSvc, searchSvc, $stateParams) => {
       chipTag = chipTag.replace(/[#]/g, '-sharp'); // f#  => f-sharp
     }
     return chipTag;
-  }
+  };
 
 
 

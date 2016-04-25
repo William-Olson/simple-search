@@ -2,7 +2,7 @@
 module.exports = function (){
 
 //@ngInject
-return function($stateProvider, $urlRouterProvider, mainSvc){
+return function($stateProvider, $urlRouterProvider){
 
   $urlRouterProvider.otherwise('/404');
   $urlRouterProvider.when('', '/');

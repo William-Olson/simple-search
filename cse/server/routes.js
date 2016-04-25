@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 // google search api route
 router.get('/ws/:q', (req, res, next) => {
   web.search(req.params.q, (err, data) => {
-    console.log(data);
+    // console.log(data);
   	if(err) send_err(res, err);
   	else {
       web.search(req.params.q, (err, next10) => {

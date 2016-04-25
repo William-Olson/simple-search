@@ -15,24 +15,27 @@ module.exports = () => {
 
 
   // Calc Cosine Similarity.
-  let cmpCos = (docVec1, docVec2) => {
-    let result = -1.0;
-    //TODO: implement this
-    return result;
+  let rankCosine = (hits) => {
+    //create tf arrays
+    crafter.craft(hits);
+
+    //create query doc
+    let qDoc = crafter.build(getRels(hits));
+    
+    //add weights
+
   };
 
 
   // Calc Jaccard Similarity.
-  let cmpJac = (docVec1, docVec2) => {
-    let result = -1.0;
+  let rankJaccard = (hits) => {
     //TODO: implement this
-    return result;
+    hits.forEach((h, i, a) => { h.weight = ((i + 0.0) / a.length); });
   };
 
 
   // Rerank the current web search results.
   service.reRank = (term, hits, cb, opts) => {
-    let results = [];
     //TODO: implement this
     // console.log('running reRank(' + term +
     //   ', arr[' + getRels(hits).length + '], cb, ', opts);
@@ -46,16 +49,21 @@ module.exports = () => {
     switch(opts.type) {
       case opts.JACC:
         //compare jaccard similarity
+        rankJaccard(hits);
         break;
       case opts.COS:
         //compare cosine similarity
-        crafter.craft(hits);
+        rankCosine(hits);
         break;
       default:
         cb(new Error('Bad opt (algor) type!'));
     }
+
+    //sort by rank
+    hits.sort( (a, b) => (a.weight > b.weight) );
+
     console.log(hits);
-    cb(null, results);
+    cb(null, hits);
   };
 
 

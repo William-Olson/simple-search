@@ -15,14 +15,14 @@
         | {{$index + 1}}
       .result-content-area.section.col.s9.valign
         h6.result-title-area(ng-bind-html="h.htmlTitle")
-        .s-primary(ng-bind-html="h.htmlSnippet")
+        .off-gray(ng-bind-html="h.htmlSnippet")
         a(href="{{h.link}}", ng-bind-html="h.htmlFormattedUrl", target="_blank")
       .col.s2.valign.right-align
         .checks(ng-if="opts.ranked")
           span.left-align #[small Relevant #[br]]
           input(type="checkbox", id="rel-chbx-{{$index}}", ng-model="h.rel")
           label(for="rel-chbx-{{$index}}")
-        .rank-badge(ng-show="opts.ranked && h.weight")
+        .rank-badge.left-align(ng-show="opts.ranked && h.weight")
           .tiny-badge.left-align(ng-model="h.weight") {{ 'Score: ' + weight(h) }}
   //- local results area
   .local-results(ng-show="opts.search==='Local'")
@@ -34,7 +34,7 @@
         | {{$index + 1}}
       .result-content-area.section.col.s7.valign(ng-class="'lang-' + toLang(h.lang)")
         h6.result-title-area() {{h.name}}
-        .s-primary() {{h.description}}
+        .off-gray() {{h.description}}
         a(ng-if="h.url", ng-href="{{h.url}}", target="_blank") {{h.url}}
       .col.s2.valign.center-align
         .tiny-badge(ng-class="'tiny-' + toLang(h.lang)") {{h.lang}}

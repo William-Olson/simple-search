@@ -163,6 +163,19 @@ function getIntersection(arr1, arr2) {
   return intersection;
 }
 
+// Logs data to console with phase/step message.
+function showStep(data, step, phase) {
+  phase = (phase === 'H' ? ('HITS_PHASE' + step) :
+                           ('QDOC_PHASE' + step) );
+  switch(step) {
+    case 0:  console.log(phase + '(str): ', data);      break;
+    case 1:  console.log(phase + '(vec): ', data);      break;
+    case 2:  console.log(phase + '(lower): ', data);    break;
+    case 3:  console.log(phase + '(stopW): ', data);    break;
+    case 4:  console.log(phase + '(norm): ', data);     break;
+    default: console.log(data);
+  }
+}
 
 // SERVICE METHODS --------------------------
 
@@ -175,13 +188,13 @@ function getIntersection(arr1, arr2) {
 // to true.
 service.craft = (hitsArr, jaccard) => {
   init(hitsArr);
-  if(SHOW_STEPS) console.log('HITS_PHASE1(vec): ', hitsArr);
+  if(SHOW_STEPS) showStep(hitsArr[0].doc_ir, 1, 'H');
   toLower(hitsArr);
-  if(SHOW_STEPS) console.log('HITS_PHASE2(lower): ', hitsArr);
+  if(SHOW_STEPS) showStep(hitsArr[0].doc_ir, 2, 'H');
   rmStopWords(hitsArr);
-  if(SHOW_STEPS) console.log('HITS_PHASE3(stpW): ', hitsArr);
+  if(SHOW_STEPS) showStep(hitsArr[0].doc_ir, 3, 'H');
   normalize(hitsArr);
-  if(SHOW_STEPS) console.log('HITS_PHASE4(norm): ', hitsArr);
+  if(SHOW_STEPS) showStep(hitsArr[0].doc_ir, 4, 'H');
 
   //handle which doc representation to use
   if(jaccard) getSets(hitsArr);
@@ -211,20 +224,20 @@ service.build = (relHits, jaccard) => {
 
   //remove extra space at ends
   resultDoc.doc_ir = resultDoc.doc_ir.trim();
-  if(SHOW_STEPS) console.log('QDOC_PHASE0(str): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) showStep(resultDoc.doc_ir, 0);
 
   //convert doc_ir to array of terms
   resultDoc.doc_ir = getTermVec(resultDoc.doc_ir);
-  if(SHOW_STEPS) console.log('QDOC_PHASE1(vec): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) showStep(resultDoc.doc_ir, 1);
   
   //handle term preprocessing
   let arr = [resultDoc];
   toLower(arr);
-  if(SHOW_STEPS) console.log('QDOC_PHASE2(lower): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) showStep(resultDoc.doc_ir, 2);
   rmStopWords(arr);
-  if(SHOW_STEPS) console.log('QDOC_PHASE3(stpW): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) showStep(resultDoc.doc_ir, 3);
   normalize(arr);
-  if(SHOW_STEPS) console.log('QDOC_PHASE4(norm): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) showStep(resultDoc.doc_ir, 4);
   //add the doc property (Array)
   //to the resultDoc object
   if(jaccard) getSets(arr);
@@ -243,7 +256,6 @@ service.cmpCosine = (craftedHits, craftedQDoc) => {
 
 
 service.cmpJaccard = (craftedHits, craftedQDoc) => {
-  //TODO: implement this
   craftedHits.forEach((hit) => {
     let union = getUnion(hit.doc, craftedQDoc.doc);
     let intersect = getIntersection(hit.doc, craftedQDoc.doc);

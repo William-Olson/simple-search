@@ -16,6 +16,8 @@ Project ------------------------------------------------------------------------
 
     Docker Containers used
 
+      Service   |   Image
+      ----------------------------------------
       cse:          Node.js         (official)
       nginx:        Nginx           (official)
 
@@ -62,6 +64,7 @@ Project ------------------------------------------------------------------------
   OBSERVATIONS
 
     Experiments Performed
+
       I tested out both cosine & Jaccard methods with the following
       queries:
 
@@ -74,20 +77,23 @@ Project ------------------------------------------------------------------------
     Re-Ranking Outcomes & Comparison-of-Measures
       
       The Jaccard algorithm seemed to reRank the items
-      better for some reason.  This might be becuse the
-      idf values were not considered in the cosine 
-      similarity algorithm.
+      better than Cosine similarity on the average.  This
+      is most likely because the document lengths (title
+      and description fields) are very short and there are not
+      a lot of repeating terms per document, as well as the lack
+      of true idf values that caused the cosine similarity 
+      algorithm to not perform as well.
 
   COMMENTS
 
-    Searching the above terms that could possibly
-    mean 2 different things was helpful when comparing
+    Searching the above terms that are ambiguous (could possibly
+    mean 2 different things) was helpful when comparing
     the algorithms.  For instance, I would search 'bulb',
     click on 1 or 2 results that contained information about
-    plants (marking them relevant) and upon reranking all
-    results about plants should be at top and results about
+    plants (marking them relevant), and upon reranking, most
+    results about plants should be near the top and results about
     light bulbs should come after.
-      
+
 
 
 Optional Extended Project ------------------------------------------------------------
@@ -105,6 +111,8 @@ Optional Extended Project ------------------------------------------------------
 
     Added Containers
 
+      Service   |   Image
+      ----------------------------------------
       data:         scorpil/rust    (jessie container with cargo installed)
       indexer:      Node.js         (official)
       elastic:      Elasticsearch   (official)
@@ -234,7 +242,7 @@ Optional Extended Project ------------------------------------------------------
     Ideally you would want to restrict the
     query logic for the app to handle, & 
     not expose the service to malicious user
-    queries.
+    input.
 
 
 End

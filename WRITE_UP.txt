@@ -30,26 +30,64 @@ Project ------------------------------------------------------------------------
       Vagrant/Ruby
 
     Vector-Space-Model description
-      [TODO]
+
+      All implementations regarding vector space model can
+      be found in the following files:
+        
+        - cse/client/js/services/ranked-svc.js
+        - cse/client/js/util/doc-crafter.js
+      
+      The ranked-svc file uses the methods in the doc-crafter
+      file to carry out the vector space calculations.
+      Each method carried out performs a step or phase of the
+      process.  The following phases are carried out per reRank
+      execution with cosine similarity options selected:
+        
+        - combine terms to string
+          (doc_ir property added to each document)
+        - convert string to array (vector) of terms
+        - make all letters of terms lowercase
+        - remove all stop words
+        - stem all terms
+        - convert vector of terms to vector of tf values
+          (doc property added to each document)
+
 
     Similarity-Measure used
-      [TODO]
+
+      Both cosine similarity and Jaccard algorithms are
+      implemented from scratch.  Choose which one to use
+      on the options page.
 
   OBSERVATIONS
 
     Experiments Performed
-      [TODO]
+      I tested out both cosine & Jaccard methods with the following
+      queries:
 
-    Re-Ranking Outcomes
-      [TODO]
+       - 'falcon'
+       - 'bulb'
+       - 'java'
+       - 'babel'
+       - 'mint'
 
-    Comparison-of-Measures
-      [TODO]
+    Re-Ranking Outcomes & Comparison-of-Measures
+      
+      The Jaccard algorithm seemed to reRank the items
+      better for some reason.  This might be becuse the
+      idf values were not considered in the cosine 
+      similarity algorithm.
 
   COMMENTS
 
-    Extra-Notes to add
-      [TODO]
+    Searching the above terms that could possibly
+    mean 2 different things was helpful when comparing
+    the algorithms.  For instance, I would search 'bulb',
+    click on 1 or 2 results that contained information about
+    plants (marking them relevant) and upon reranking all
+    results about plants should be at top and results about
+    light bulbs should come after.
+      
 
 
 Optional Extended Project ------------------------------------------------------------

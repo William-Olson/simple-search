@@ -1,7 +1,7 @@
 'use strict';
 
 var crafter = require('../util/doc-crafter');
-
+const LOG_HITS = false; //show objects in console
 
 // @ngInject
 module.exports = () => {
@@ -23,46 +23,47 @@ module.exports = () => {
     let qDoc = crafter.build(getRels(hits));
     
     //add weights
-
+    crafter.cmpCosine(hits, qDoc);
   };
 
 
   // Calc Jaccard Similarity.
   let rankJaccard = (hits) => {
-    //TODO: implement this
-    hits.forEach((h, i, a) => { h.weight = ((i + 0.0) / a.length); });
+    //pass jaccard bool for set doc_ir
+    crafter.craft(hits, true);
+
+    //create query doc (as set)
+    let qDoc = crafter.build(getRels(hits), true);
+    
+    //add weights
+    crafter.cmpJaccard(hits, qDoc);
   };
 
 
   // Rerank the current web search results.
   service.reRank = (term, hits, cb, opts) => {
-    //TODO: implement this
-    // console.log('running reRank(' + term +
-    //   ', arr[' + getRels(hits).length + '], cb, ', opts);
-    // console.log(');');
 
-    //create the combined doc
-
-    //set vec property for each hit + term
-
-    //compare similarities
+    //delegate to specific implementation & calc ranks
     switch(opts.type) {
       case opts.JACC:
-        //compare jaccard similarity
         rankJaccard(hits);
         break;
       case opts.COS:
-        //compare cosine similarity
         rankCosine(hits);
         break;
       default:
-        cb(new Error('Bad opt (algor) type!'));
+        cb(new Error('[reRank Error] Bad opt (algor) type!'));
     }
 
     //sort by rank
-    hits.sort( (a, b) => (a.weight > b.weight) );
+    hits.sort( (a, b) => (a.weight < b.weight ? 1 :  (a.weight > b.weight ? -1 :  0) ) );
 
-    console.log(hits);
+
+    if(LOG_HITS){
+      console.log('LOGGING SORTED HITS:');
+      console.log(hits);
+    }
+    //return reRank results
     cb(null, hits);
   };
 

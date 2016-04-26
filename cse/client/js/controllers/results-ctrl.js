@@ -75,6 +75,11 @@ module.exports = ($scope, mainSvc, searchSvc, $stateParams) => {
     else return 0;
   };
 
+  $scope.weight = (hit) => {
+    if(hit.weight) return hit.weight.toFixed(4).toString();
+    else return '';
+  }
+
   $scope.toLang = (str) => {
     let chipTag = angular.lowercase(str);
     if(chipTag){

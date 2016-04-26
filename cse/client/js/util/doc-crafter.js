@@ -1,5 +1,8 @@
 'use strict';
 
+// Bool for logging phases to console.
+const SHOW_STEPS = false;
+
 const stem = require('./porters-algorithm');
 const stopWords = require('./stop-words');
 
@@ -89,6 +92,9 @@ let getSets = (hitsArr) => {
 // Convert docStr to a vector (Array of terms).
 // splits on regex (matching strings)
 function getTermVec(docStr) {
+  //replace all punctuation & _ with spaces
+  docStr = docStr.replace(/[^\w\s]|_/g, " ");
+  //then split into array by whitespace
   return docStr.split(/[ ]+/g);
 }
 
@@ -124,26 +130,58 @@ function vecLen(arrOfNums) {
 
 // Returns dot product from 2 vectors.
 function dot(arr1, arr2) {
-  let res = 0;
-  let len = ((arr1.length > arr2.length) ?
+  let res = 0.0;
+  let len = ((arr1.length < arr2.length) ?
               arr1.length : arr2.length);
-  for(let i = 0; i < len; i++)
+  for(let i = 0; i < len; i++){
     res += arr1[i] * arr2[i];
+  }
   return res;
 }
 
+// Returns an Array containing the
+// union of terms between arr1 and
+// arr2.
+function getUnion(arr1, arr2) {
+  //copy array 1
+  let union = arr1.slice();
+  //step through and add extras
+  for(let i = 0; i < arr2.length; i++)
+    if(union.indexOf(arr2[i]) === -1)
+      union.push(arr2[i]);
+  return union;
+}
 
+// Returns an Array containing the
+// intersection elements between arr1 and
+// arr2.
+function getIntersection(arr1, arr2) {
+  let intersection = [];
+  for(let i = 0; i < arr1.length; i++)
+    if(arr2.indexOf(arr1[i]) !== -1)
+      intersection.push(arr1[i]);
+  return intersection;
+}
 
 
 // SERVICE METHODS --------------------------
 
 
-// Crafts doc properties on result Objects
+// Crafts doc properties on hitsArr.
+// The doc property is an Array of
+// tf values (Numbers) OR an Array of
+// term (Strings) without duplicates if
+// the jaccard argument evaluates/coerces
+// to true.
 service.craft = (hitsArr, jaccard) => {
   init(hitsArr);
+  if(SHOW_STEPS) console.log('HITS_PHASE1(vec): ', hitsArr);
   toLower(hitsArr);
+  if(SHOW_STEPS) console.log('HITS_PHASE2(lower): ', hitsArr);
   rmStopWords(hitsArr);
+  if(SHOW_STEPS) console.log('HITS_PHASE3(stpW): ', hitsArr);
   normalize(hitsArr);
+  if(SHOW_STEPS) console.log('HITS_PHASE4(norm): ', hitsArr);
 
   //handle which doc representation to use
   if(jaccard) getSets(hitsArr);
@@ -152,8 +190,10 @@ service.craft = (hitsArr, jaccard) => {
 
 
 // Builds the combined relevant query doc
+// which is an Object with an array property
+// called doc holding tf (cosine) or term 
+// (jaccard) values.
 service.build = (relHits, jaccard) => {
-  console.log('relHits: ', relHits);
 
   //the new query document
   let resultDoc = {
@@ -171,36 +211,50 @@ service.build = (relHits, jaccard) => {
 
   //remove extra space at ends
   resultDoc.doc_ir = resultDoc.doc_ir.trim();
-
-  console.log('PHASE1(str): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) console.log('QDOC_PHASE0(str): ', resultDoc.doc_ir);
 
   //convert doc_ir to array of terms
   resultDoc.doc_ir = getTermVec(resultDoc.doc_ir);
-  console.log('PHASE2(vec): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) console.log('QDOC_PHASE1(vec): ', resultDoc.doc_ir);
   
   //handle term preprocessing
   let arr = [resultDoc];
   toLower(arr);
-  console.log('PHASE3(lower): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) console.log('QDOC_PHASE2(lower): ', resultDoc.doc_ir);
   rmStopWords(arr);
-  console.log('PHASE4(stpW): ', resultDoc.doc_ir);
+  if(SHOW_STEPS) console.log('QDOC_PHASE3(stpW): ', resultDoc.doc_ir);
   normalize(arr);
-  console.log('PHASE5(norm): ', resultDoc.doc_ir);
-  //no duplicate terms for jaccard
-  if(jaccard) {
-    getSets(arr);
-  } else {
-    //add the doc property (array of tf values)
-    //to the resultDoc object
-    getTfVec(arr);
-  }
+  if(SHOW_STEPS) console.log('QDOC_PHASE4(norm): ', resultDoc.doc_ir);
+  //add the doc property (Array)
+  //to the resultDoc object
+  if(jaccard) getSets(arr);
+  else getTfVec(arr);
 
-
-  console.log('--in-crafter.build--: resultDoc: ', resultDoc);
   return resultDoc;
 };
 
 
+service.cmpCosine = (craftedHits, craftedQDoc) => {
+  craftedHits.forEach((hit) => {
+    hit.weight = (dot(hit.doc, craftedQDoc.doc) /
+      (vecLen(hit.doc) * vecLen(craftedQDoc.doc)));
+  });
+};
 
+
+service.cmpJaccard = (craftedHits, craftedQDoc) => {
+  //TODO: implement this
+  craftedHits.forEach((hit) => {
+    let union = getUnion(hit.doc, craftedQDoc.doc);
+    let intersect = getIntersection(hit.doc, craftedQDoc.doc);
+    if(union.length === 0 && intersect.length === 0){
+      hit.weight = 1.0;
+    }else if (union.length === 0) {
+      hit.weight = 0.0;
+    }else {
+      hit.weight = (intersect.length / union.length);
+    }
+  });
+};
 
 module.exports = service;

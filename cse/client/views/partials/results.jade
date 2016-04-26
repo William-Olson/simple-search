@@ -20,8 +20,10 @@
       .col.s2.valign.right-align
         .checks(ng-if="opts.ranked")
           span.left-align #[small Relevant #[br]]
-          input.tooltipped(type="checkbox", id="rel-chbx-{{$index}}", ng-model="h.rel")
+          input(type="checkbox", id="rel-chbx-{{$index}}", ng-model="h.rel")
           label(for="rel-chbx-{{$index}}")
+        .rank-badge(ng-show="opts.ranked && h.weight")
+          .tiny-badge.left-align(ng-model="h.weight") {{ 'Score: ' + weight(h) }}
   //- local results area
   .local-results(ng-show="opts.search==='Local'")
     .row.valign-wrapper.card(

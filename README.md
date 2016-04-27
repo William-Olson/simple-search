@@ -24,7 +24,7 @@ searched.
 
 ##### Windows
 
-See [Windows Readme][bbwin] file.
+See [Windows Readme][ghwin] file.
 
 ##### Mac & Linux
 
@@ -56,6 +56,20 @@ docker-machine ls
 
 #### Running the App
 
+##### Auth Setup
+
+Create a `.env` file containing your API credentials
+in the `cse` directory...
+
+```bash
+echo 'GOOG_API_CX=cxBlob'   >> ./cse/.env
+echo 'GOOG_API_KEY=keyBlob' >> ./cse/.env
+```
+
+Where `cxBlob` & `keyBlob` are your google API credentials.
+
+##### Build
+
 You can use the `build.sh` script for running
 the app...
 
@@ -71,11 +85,7 @@ It will be available at `http://localhost/cse` for Linux, or
 
 #### TODO
 
- * **Checklist**
-   * Matched Term Preprocessing
-     * local: search / indexing
-     * web: search / reranking
-   * Write Up
+ * CleanUp
 
 [bbwin]: src/master/WINDOWS.md
 [ghwin]: WINDOWS.md

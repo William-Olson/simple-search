@@ -81,13 +81,7 @@ It will be available at `http://localhost/cse` for Linux, or
 `http://ip/cse` for Mac, where ip is the host machine's ip address.
 
 
-## Dev Stuff
 
-#### TODO
-
- * CleanUp
-
-[bbwin]: src/master/WINDOWS.md
 [ghwin]: WINDOWS.md
 [docker]: https://docs.docker.com/engine/installation/
 [dockerc]: https://docs.docker.com/compose/install/

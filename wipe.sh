@@ -5,7 +5,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# ex: ./wipe.sh 2
+# ex: ./wipe.sh ss_cse
 if [ $1 ] ; then
 	docker-compose kill $1 ;
 	docker-compose rm $1 ;
